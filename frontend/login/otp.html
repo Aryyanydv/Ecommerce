@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify OTP</title>
+</head>
+<body>
+
+ <div class="container">
+        <h2>Login</h2>
+        <form id="otpForm">
+            <div class="form-group">
+                <label>Otp</label>
+                <input type="text" id="otp" placeholder="Enter OTP" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const BASE_URL = "http://localhost:5000"; 
+        async function checkOtp(data) {
+            const response = await fetch(`${BASE_URL}/user/verify-otp`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(data),
+            });
+            const result = await response.json();
+            return result;
+        }
+        document.getElementById("otpForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+        
+            const otp = document.getElementById("otp").value;
+            const emailId = localStorage.getItem("userEmail");
+        
+            if (!emailId) {
+                alert("Email not found. Please login again.");
+                window.location.href = "./login.html";
+                return;
+            }
+        
+            try {
+                const result = await checkOtp({ emailId, otp });
+                console.log("OTP verification result:", result);
+        
+                if (result.message && result.message.includes("verified successfully")) {
+                    alert(result.message);
+        
+                    localStorage.removeItem("userEmail");
+        
+                    window.location.href = "../cart/cart.html";
+                } else {
+                    alert(result.message || "OTP verification failed");
+                }
+        
+            } catch (error) {
+                console.log("Error during OTP verification:", error.message || error);
+                alert("Something went wrong.");
+            }
+        });
+        </script>
+
+</body>
+</html>
