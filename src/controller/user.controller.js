@@ -47,7 +47,7 @@ const loginUser = async (req,res) => {
         console.log(`OTP for ${emailId} is ${otp}`);
         res.status(200).json({
             message : "Otp sent to your emailId, please verify",
-            emailId
+            user
         });
     }catch(error){
         console.log("Error in controller layer while logging in user",error);
@@ -64,8 +64,8 @@ const verifyOtp = async (req,res) => {
         const {user, token} = await userServices.verifyOtpServices({emailId,otp});
         res.cookie("token", token, {
             httpOnly : true,
-            secure: false, 
-            sameSite: "lax" });
+            secure: false,
+            sameSite: "none" });
         res.status(200).json({
             message : "OTP verified successfully",
             user,
@@ -80,8 +80,26 @@ const verifyOtp = async (req,res) => {
     }
 }
 
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie('token');
+
+    return res.status(200).json({
+      success: true,
+      message: 'Logged out successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
     registerUser,
     loginUser,
-    verifyOtp
+    verifyOtp,
+    logout
 };

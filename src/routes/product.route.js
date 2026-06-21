@@ -6,8 +6,11 @@ const userAuth = require("../middlewares/auth");
 
 
 router.post("/product/create", uploadProductImages.array("images", 5), productController.createProduct);
-router.get("/product/:id", userAuth, productController.getProductDetails);
+router.get("/product/:id", productController.getProductDetails);
 router.get("/products", productController.getProductsController);
 router.get("/products/buckets", productController.getPriceBucketsController);
+router.get("/products/brand/:brand", productController.getProductByBrand);
+router.get("/products/search", productController.searchProductsController);
+
 
 module.exports = router;

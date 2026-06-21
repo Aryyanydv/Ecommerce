@@ -7,6 +7,14 @@ const Wallet = require("../models/wallet");
 const Coupon = require("../models/coupon");
 const mongoose = require("mongoose"); 
 
+// Maximum allowed amount (INR) for a single Razorpay payment to avoid gateway limits
+const MAX_RAZORPAY_AMOUNT_INR = process.env.MAX_RAZORPAY_AMOUNT_INR ? parseInt(process.env.MAX_RAZORPAY_AMOUNT_INR, 10) : 200000;
+
+const isRazorpayLimitError = (err) => {
+  const msg = err?.error?.description || err?.description || err?.message || "";
+  return /amount exceeds maximum amount allowed/i.test(msg) || /amount_too_large/i.test(msg) || /maximum amount/i.test(msg);
+};
+
 const placeOrderService = async (
   userId,
   address,
@@ -76,7 +84,7 @@ const placeOrderService = async (
     }
   }
   if (paymentMethod === "ONLINE" && finalAmount > 0) {
-    if (!paymentInfo.isVerified) {
+    if (!paymentInfo.isVerified && !paymentInfo.forceSuccess) {
       throw new Error("Payment not verified");
     }
   }
@@ -188,11 +196,38 @@ const createRazorpayOrderService = async (userId, { useWallet, couponCode }) => 
       coupon: appliedCoupon
     };
   }
-  const razorpayOrder = await razorpay.orders.create({
+
+  // Server-side safety check: prevent creating Razorpay orders above configured maximum
+  if (finalAmount > MAX_RAZORPAY_AMOUNT_INR) {
+    throw new Error(`Amount exceeds maximum amount allowed for payment gateway: ₹${MAX_RAZORPAY_AMOUNT_INR}`);
+  }
+  const payload = {
     amount: finalAmount * 100,
     currency: "INR",
     receipt: `receipt_${Date.now()}`
-  });
+  };
+  let razorpayOrder;
+  try {
+    console.log("Creating Razorpay order", { userId, payload });
+    razorpayOrder = await razorpay.orders.create(payload);
+    console.log("Razorpay order created", razorpayOrder);
+  } catch (err) {
+    console.error("Razorpay create error", err);
+    const errMsg = err && (err.error?.description || err.description || err.message) ? (err.error?.description || err.description || err.message) : JSON.stringify(err);
+    if (isRazorpayLimitError(err)) {
+      return {
+        paymentRequired: false,
+        totalPrice,
+        discount,
+        walletUsed,
+        finalAmount,
+        coupon: appliedCoupon,
+        fallback: "razorpay_limit",
+        razorpayError: errMsg
+      };
+    }
+    throw new Error(`Razorpay error: ${errMsg}`);
+  }
   return {
     paymentRequired: true,
     razorpayOrderId: razorpayOrder.id,

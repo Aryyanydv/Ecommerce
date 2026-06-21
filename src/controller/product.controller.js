@@ -49,7 +49,47 @@ const getPriceBucketsController = async (req, res) => {
         });
       }
     };
-      
-    
 
-module.exports = {createProduct, getProductDetails, getProductsController, getPriceBucketsController};
+    const getProductByBrand = async (req, res) => {
+        try {
+          const brand = req.params.brand;
+          const products = await productService.getProductByBrandServices(brand);
+          res.status(200).json(products);
+        } catch (error) {
+          console.log(error);
+          res.status(500).json({
+            error: "Internal Server Error"
+          });
+        }
+      };    
+      
+
+const searchProductsController =
+  async (req, res) => {
+    try {
+      const products =
+        await productService.searchProducts(
+          req.query
+        );
+
+      res.status(200).json({
+        success: true,
+        data: products,
+      });
+    } catch (error) {
+      console.log(
+        "Search error:",
+        error
+      );
+
+      res.status(400).json({
+        success: false,
+        message:
+          error.message,
+      });
+    }
+  };
+
+ 
+
+module.exports = {createProduct, getProductDetails, getProductsController, getPriceBucketsController, getProductByBrand, searchProductsController};

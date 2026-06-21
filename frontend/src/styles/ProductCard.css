@@ -1,0 +1,320 @@
+.product-section {
+  padding: 70px 90px;
+  background: #050505;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+/* =========================
+   PRODUCT SLIDER
+========================= */
+
+.product-container {
+  display: flex;
+  gap: 24px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-behavior: smooth;
+  padding-bottom: 14px;
+
+  scrollbar-width: none;
+}
+
+.product-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product-card {
+  min-width: 255px;
+  max-width: 255px;
+
+  background: linear-gradient(
+    180deg,
+    #111111,
+    #090909
+  );
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  border-radius: 24px;
+
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  transition: all 0.35s ease;
+
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  box-shadow:
+    0 22px 45px rgba(0,0,0,0.45);
+}
+
+/* Luxury Overlay */
+
+.product-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    145deg,
+    rgba(255,255,255,0.03),
+    transparent
+  );
+
+  pointer-events: none;
+}
+
+/* =========================
+   IMAGE
+========================= */
+
+.product-image-container {
+  position: relative;
+
+  width: 100%;
+  height: 240px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255,255,255,0.03),
+      transparent
+    );
+}
+
+.product-image {
+  width: 82%;
+  height: 82%;
+
+  object-fit: contain;
+
+  transition: 0.4s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+/* =========================
+   PREMIUM WISHLIST BUTTON
+========================= */
+
+.product-heart-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(18,18,18,0.92);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.14);
+
+  color: rgba(255,255,255,0.9);
+
+  font-size: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: all 0.35s ease;
+
+  z-index: 10;
+
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.35),
+    inset 0 1px 1px rgba(255,255,255,0.05);
+}
+
+.product-heart-btn:hover {
+  transform: scale(1.12);
+
+  background: rgba(30,30,30,0.98);
+
+  border-color: rgba(255,255,255,0.22);
+
+  box-shadow:
+    0 10px 28px rgba(0,0,0,0.45);
+}
+
+.product-heart-btn:active {
+  transform: scale(0.96);
+}
+
+/* Active Heart */
+
+.product-heart-btn.heart-active {
+  color: #ff4d6d;
+
+  background: linear-gradient(
+    135deg,
+    rgba(239,68,68,0.18),
+    rgba(255,77,109,0.12)
+  );
+
+  border: 1px solid rgba(255,77,109,0.3);
+
+  box-shadow:
+    0 0 20px rgba(255,77,109,0.28);
+}
+
+/* =========================
+   PRODUCT INFO
+========================= */
+
+.product-info {
+  padding: 20px;
+}
+
+.product-brand {
+  font-size: 11px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  color: rgba(255,255,255,0.38);
+
+  margin-bottom: 10px;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 600;
+
+  color: white;
+
+  line-height: 1.5;
+
+  margin-bottom: 14px;
+
+  min-height: 52px;
+}
+
+.product-price {
+  font-size: 22px;
+  font-weight: 700;
+
+  color: white;
+}
+
+/* =========================
+   PREMIUM SHINE
+========================= */
+
+.product-card::after {
+  content: "";
+
+  position: absolute;
+
+  top: -120%;
+  left: -100%;
+
+  width: 120%;
+  height: 250%;
+
+  background: linear-gradient(
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.06),
+    rgba(255,255,255,0)
+  );
+
+  transform: rotate(25deg);
+
+  transition: 0.8s ease;
+}
+
+.product-card:hover::after {
+  left: 140%;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 768px) {
+  .product-section {
+    padding: 50px 20px;
+  }
+
+  .product-card {
+    min-width: 220px;
+    max-width: 220px;
+  }
+
+  .product-image-container {
+    height: 210px;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .product-heart-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 500px) {
+  .product-card {
+    min-width: 200px;
+    max-width: 200px;
+  }
+
+  .product-image-container {
+    height: 190px;
+  }
+
+  .product-name {
+    font-size: 16px;
+  }
+
+  .product-price {
+    font-size: 20px;
+  }
+}

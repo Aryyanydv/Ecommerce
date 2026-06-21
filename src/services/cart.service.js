@@ -60,6 +60,7 @@ const getCartItemsService = async (userId) => {
       totalPrice += itemTotal;
 
       items.push({
+        cartItemId: cartItem._id,
         productId: product._id,
         name: product.name,
         brand: product.brand,
@@ -125,27 +126,71 @@ const removeCartItemService = async (cartItemId) => {
     }
 }
 
-const updateCartItemService = async ({ user, productId, variantId, quantity }) => {
-  try {
-    const cartItem = await Cart.findOne({ user, productId, variantId });
-    if (!cartItem) {
-      throw new Error("Cart item not found");
+const updateCartItemService =
+  async ({
+    user,
+    productId,
+    variantId,
+    quantity
+  }) => {
+    try {
+      const cart =
+        await Cart.findOne({
+          user
+        });
+      if (!cart) {
+        throw new Error(
+          "Cart not found"
+        );
+      }
+      const item =
+        cart.items.find(
+          (item) =>
+            item.productId.toString() ===
+              productId &&
+            item.variantId.toString() ===
+              variantId
+        );
+      if (!item) {
+        throw new Error(
+          "Cart item not found"
+        );
+      }
+      if (quantity < 0) {
+        throw new Error(
+          "Quantity cannot be negative"
+        );
+      }
+      if (quantity === 0) {
+        cart.items =
+          cart.items.filter(
+            (item) =>
+              !(
+                item.productId.toString() ===
+                  productId &&
+                item.variantId.toString() ===
+                  variantId
+              )
+          );
+
+      } else {
+        item.quantity =
+          quantity;
+      }
+      await cart.save();
+      return cart;
+    } catch (error) {
+
+      console.log(
+        "Error updating cart item:",
+        error
+      );
+
+      throw error;
     }
-    if (quantity === 0) {
-      await cartItem.deleteOne();
-      return { message: "Item removed from cart" };
-    }
-    if (quantity < 0) {
-      throw new Error("Invalid quantity");
-    }
-    cartItem.quantity = quantity;
-    await cartItem.save();
-    return cartItem;
-  } catch (error) {
-    console.log("Error updating cart item", error);
-    throw error;
-  }
-};
+  };
+
+
 
 const removeCouponService = async (userId) => {
   try {

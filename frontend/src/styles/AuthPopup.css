@@ -1,0 +1,103 @@
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+
+  backdrop-filter: blur(8px);
+}
+
+.auth-popup {
+  width: 430px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+
+  padding: 40px;
+
+  text-align: center;
+  position: relative;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.45);
+}
+
+.auth-popup h1 {
+  color: white;
+  margin-bottom: 18px;
+  font-size: 32px;
+}
+
+.auth-popup p {
+  color: #b5b5b5;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.login-btn,
+.signup-btn {
+  flex: 1;
+  border: none;
+  padding: 16px;
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.login-btn {
+  background: #1f2937;
+  color: white;
+}
+
+.signup-btn {
+  background: linear-gradient(
+    135deg,
+    #60a5fa,
+    #a78bfa
+  );
+
+  color: white;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  transform: translateY(-3px);
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  background: none;
+  border: none;
+
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .auth-popup {
+    width: 90%;
+    padding: 30px 22px;
+  }
+
+  .popup-buttons {
+    flex-direction: column;
+  }
+}

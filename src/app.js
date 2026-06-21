@@ -9,9 +9,20 @@ app.use(cors({
     "http://127.0.0.1:5000",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
+    "http://localhost:1234",
+    "http://127.0.0.1:1234",
   ],
   credentials: true,
 }));
+
+// Expose specific headers to the browser (helps when frontend reads custom response headers)
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Expose-Headers",
+    "x-rtb-fingerprint-id, request-id"
+  );
+  next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
@@ -39,6 +50,8 @@ const wishlistRoute = require("./routes/wishlist.route");
 app.use(wishlistRoute);
 const walletRoute = require("./routes/wallet.route");
 app.use(walletRoute);
+const contactRoute = require("./routes/contact.route");
+app.use(contactRoute);
 
 app.get("/", (req,res) => {
   res.send("Hello World");

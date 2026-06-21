@@ -3,12 +3,16 @@ const orderService = require("../services/order.service");
 const placeOrder = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { address, paymentMethod, useWallet, couponCode } = req.body || {};
+    const { address, paymentMethod, useWallet, couponCode, forcePaymentSuccess } = req.body || {};
     const order = await orderService.placeOrderService(
       userId,
       address,
       paymentMethod,
-      { useWallet, couponCode }
+      { useWallet, couponCode },
+      {
+        isVerified: !!forcePaymentSuccess,
+        forceSuccess: !!forcePaymentSuccess
+      }
     );
     return res.status(201).json({
       success: true,

@@ -4,7 +4,7 @@ const userController = require("../controller/user.controller");
 const uploadImg = require("../middlewares/uploadImage");
 const otpRateLimiter = require("../middlewares/otpRateLimiter");
 const user = require('../models/user');
-
+const userAuth = require("../middlewares/auth");
 
 router.post(
   "/user/signUp",
@@ -14,6 +14,6 @@ router.post(
 
 router.post("/user/login", userController.loginUser);
 router.post("/user/verify-otp", otpRateLimiter, userController.verifyOtp);
-
+router.post('/logout', userAuth, userController.logout);
 
 module.exports = router;

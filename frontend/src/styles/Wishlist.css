@@ -1,0 +1,308 @@
+* {
+  box-sizing: border-box;
+}
+
+/* ==========================
+   PAGE
+========================== */
+
+.wishlist-page {
+  min-height: 100vh;
+  background: #050505;
+
+  padding: 70px 90px;
+}
+
+/* ==========================
+   TITLE
+========================== */
+
+.wishlist-page h1 {
+  font-size: 48px;
+  font-weight: 700;
+
+  color: white;
+
+  margin-bottom: 60px;
+
+  letter-spacing: -1px;
+}
+
+/* ==========================
+   GRID
+========================== */
+
+.wishlist-grid {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 36px;
+}
+
+/* ==========================
+   CARD
+========================== */
+
+.wishlist-card {
+  width: calc(25% - 27px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #111111,
+      #080808
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  border-radius: 34px;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition: 0.4s ease;
+
+  position: relative;
+}
+
+.wishlist-card:hover {
+  transform:
+    translateY(-10px);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.16);
+
+  box-shadow:
+    0 28px 60px
+    rgba(0,0,0,0.45);
+}
+
+/* luxury shine */
+
+.wishlist-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.03),
+      transparent
+    );
+
+  pointer-events: none;
+}
+
+/* ==========================
+   IMAGE
+========================== */
+
+.wishlist-card img {
+  width: 100%;
+  height: 340px;
+
+  object-fit: contain;
+
+  padding: 28px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255,255,255,0.03),
+      transparent
+    );
+
+  transition: 0.4s ease;
+}
+
+.wishlist-card:hover img {
+  transform:
+    scale(1.06)
+    rotate(-2deg);
+}
+
+/* ==========================
+   INFO
+========================== */
+
+.wish-info {
+  padding: 0 26px 26px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.wish-info h3 {
+  color: white;
+
+  font-size: 22px;
+  font-weight: 600;
+
+  line-height: 1.5;
+
+  margin-bottom: 14px;
+}
+
+.wish-info p {
+  color: white;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  margin-bottom: 22px;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.wish-info div {
+  display: flex;
+  gap: 14px;
+}
+
+/* common */
+
+.wish-info button {
+  flex: 1;
+
+  height: 56px;
+
+  border: none;
+  border-radius: 18px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition: 0.3s ease;
+}
+
+/* view button */
+
+.wish-info button:first-child {
+  background:
+    rgba(255,255,255,0.08);
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+
+  color: white;
+}
+
+.wish-info button:first-child:hover {
+  background:
+    rgba(255,255,255,0.12);
+
+  transform:
+    translateY(-2px);
+}
+
+/* remove */
+
+.remove-wish {
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #991b1b
+    ) !important;
+
+  color: white !important;
+}
+
+.remove-wish:hover {
+  transform:
+    translateY(-2px);
+}
+
+/* ==========================
+   EMPTY
+========================== */
+
+.wishlist-empty {
+  width: 100%;
+
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 40px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #111111,
+      #080808
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,0.08);
+}
+
+.wishlist-empty p {
+  color:
+    rgba(255,255,255,0.55);
+
+  font-size: 24px;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media (max-width: 1400px) {
+
+  .wishlist-card {
+    width: calc(33.33% - 24px);
+  }
+}
+
+@media (max-width: 900px) {
+
+  .wishlist-page {
+    padding: 50px 30px;
+  }
+
+  .wishlist-card {
+    width: calc(50% - 18px);
+  }
+
+  .wishlist-page h1 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 600px) {
+
+  .wishlist-page {
+    padding: 40px 20px;
+  }
+
+  .wishlist-card {
+    width: 100%;
+  }
+
+  .wishlist-card img {
+    height: 280px;
+  }
+
+  .wish-info div {
+    flex-direction: column;
+  }
+
+  .wishlist-page h1 {
+    font-size: 30px;
+  }
+}
